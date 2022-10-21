@@ -28,4 +28,4 @@ Una vez instaladas las dependencias necesarias basta con ejecutar el siguiente c
 
 ## Construir y distribuir (entorno de producción)
 
-@todo
+    $ npm run start:prod
