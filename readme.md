@@ -9,7 +9,7 @@ API REST para la plataforma de cursos virtuales `Corsi`.
 3. [NestJS](https://nestjs.com/)
 4. [PostgreSQL](https://www.postgresql.org/)
 
-## Instalación
+## Instalar
 
 Desde un terminal clonamos el repositorio 
 
@@ -32,10 +32,11 @@ Podemos correr seeds (cargar la base de datos con datos de prueba) corriendo
 
     # Cargamos datos de prueba
     $ npm run seed
+
     # Dropeamos todos los datos
     $ npm run seed:drop
 
 
-## Construir y distribuir (entorno de producción)
+## Construir (entorno de producción)
 
     $ npm run start:prod
