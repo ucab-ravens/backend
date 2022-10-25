@@ -1,26 +1,64 @@
 import { Injectable } from '@nestjs/common';
+import { Course } from './entities/course.entity';
+import { Category } from '../categories/entities/category.entity';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { NotFoundException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class CoursesService {
-  create(createCourseDto: CreateCourseDto) {
-    return 'This action adds a new course';
+  
+  constructor(
+    @InjectRepository(Course)
+    private readonly courseRepository: Repository<Course>,
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
+  ) {}
+
+  async create(createCourseDto: CreateCourseDto) {
+    const category = await this.categoryRepository
+      .findOneBy({id: createCourseDto.category_id});
+
+    if (!category) 
+      throw new NotFoundException('Category not found');
+
+    const course = this.courseRepository.create({
+      ...createCourseDto,
+      category,
+    });
+
+    return await this.courseRepository.save(course);
   }
 
-  findAll() {
-    return `This action returns all courses`;
+  async findAll() {
+    return await this.courseRepository.find({relations: ['category']});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} course`;
+  async findOne(id: number) {
+    return this.courseRepository.findOne({
+      where: { id },
+      relations: ['category'],
+    });
   }
 
-  update(id: number, updateCourseDto: UpdateCourseDto) {
-    return `This action updates a #${id} course`;
-  }
+  async update(id: number, updateCourseDto: UpdateCourseDto) {
+    const category = await this.categoryRepository
+    .findOneBy({id: updateCourseDto.category_id});
 
-  remove(id: number) {
-    return `This action removes a #${id} course`;
-  }
+  if (!category) 
+    throw new NotFoundException('Category not found');
+
+    const course = this.courseRepository.create({
+      ...updateCourseDto,
+      category,
+    });
+
+    return await this.courseRepository.update(id, course);
+    }
+
+    async remove(id: number) {
+      return await this.courseRepository.delete(id);
+    }
 }
