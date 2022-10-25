@@ -46,7 +46,6 @@ export class CoursesController {
       && course.state !== 'published') {
         throw new ForbiddenException('You are not allowed to access this course');
     }
-
     return course;
   }
 
