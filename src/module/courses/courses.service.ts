@@ -37,7 +37,7 @@ export class CoursesService {
   }
 
   async findOne(id: number) {
-    return this.courseRepository.findOne({
+    return await this.courseRepository.findOne({
       where: { id },
       relations: ['category'],
     });
