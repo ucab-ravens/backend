@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
 import { Factory } from "nestjs-seeder";
+import * as bcrypt from 'bcrypt';
 
 export enum UserRole {
     ADMIN = 'admin',
@@ -41,5 +42,17 @@ export class User {
 
     @UpdateDateColumn({ type: "timestamp" })
     updated_at: Date;
+
+    @BeforeInsert()
+    emailToLowerCase() {
+        this.email = this.email.toLowerCase();
+    }
+
+    @BeforeInsert() 
+    @BeforeUpdate()
+    async hashPassword() {
+        const salt = await bcrypt.genSalt();
+        this.password = await bcrypt.hash(this.password, salt);
+    }        
 }
 

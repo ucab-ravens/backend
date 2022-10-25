@@ -25,11 +25,15 @@ export class UsersService {
   }
 
   async findAll() {
-    return await this.repo.find();
+    return (await this.repo.find()).map(this.filter);
+  }
+
+  async findOneByEmail(email: string) {
+    return await this.repo.findOneBy({ email });
   }
 
   async findOne(id: number) {
-    return await this.repo.findOneBy({ id });
+    return this.filter(await this.repo.findOneBy({ id }));
   }
 
   async update(id: number, user: UpdateUserDto) {
@@ -46,5 +50,10 @@ export class UsersService {
 
   async remove(id: number) {
     return await this.repo.delete(id);
+  }
+
+  private filter(user: User) {
+    const { password, ...result } = user;
+    return result;
   }
 }
