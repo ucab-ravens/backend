@@ -4,6 +4,7 @@ import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './module/categories/categories.module';
 import { CoursesModule } from './module/courses/courses.module';
+import { EnrollmentsModule } from './module/enrollments/enrollments.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CoursesModule } from './module/courses/courses.module';
     AuthModule,
     CategoriesModule,
     CoursesModule,
+    EnrollmentsModule,
   ],
   controllers: [],
   providers: [],
