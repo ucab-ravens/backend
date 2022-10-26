@@ -27,7 +27,7 @@ export class Course {
     description: string;
 
     //@ManyToOne(type => Lesson, lessons => lesson.course)
-    //lessons: Lesson[];
+    //lessons: Lesson[];//////////////////////////////////////////////////////////////////
        
     @ManyToOne(type => Category, category => category.courses)
     category: Category;

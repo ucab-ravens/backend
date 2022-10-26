@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Course } from './entities/course.entity';
 import { Category } from '../categories/entities/category.entity';
+import { Lesson } from '../lessons/entities/lesson.entity';/////////////////////////////////////
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -15,6 +16,8 @@ export class CoursesService {
     private readonly courseRepository: Repository<Course>,
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
+    //@InjectRepository(Lesson)
+    //private readonly lessonRepository: Repository<Lesson>,//////////////////////////////////////////
   ) {}
 
   async create(createCourseDto: CreateCourseDto) {
@@ -24,9 +27,16 @@ export class CoursesService {
     if (!category) 
       throw new NotFoundException('Category not found');
 
+    //const lesson = await this.lessonRepository
+    //  .findOneBy({id: createCourseDto.});////////////////////////////////////////////
+
+    //if (!lesson) 
+    //  throw new NotFoundException('Lesson not found');////////////////////////////////////////////////
+
     const course = this.courseRepository.create({
       ...createCourseDto,
       category,
+      //lesson,/////////////////////////////////////////////////////////////////
     });
 
     return await this.courseRepository.save(course);
@@ -45,20 +55,27 @@ export class CoursesService {
 
   async update(id: number, updateCourseDto: UpdateCourseDto) {
     const category = await this.categoryRepository
-    .findOneBy({id: updateCourseDto.category_id});
+      .findOneBy({id: updateCourseDto.category_id});
 
-  if (!category) 
-    throw new NotFoundException('Category not found');
+    if (!category) 
+      throw new NotFoundException('Category not found');
+
+    //const lesson = await this.lessonRepository
+    //  .findOneBy({id: updateCourseDto.});////////////////////////////////////////////
+
+    //if (!lesson) 
+    //  throw new NotFoundException('Lesson not found');////////////////////////////////////////////////
 
     const course = this.courseRepository.create({
       ...updateCourseDto,
       category,
+      //lesson,//////////////////////////////////////////////////////////////////////
     });
 
     return await this.courseRepository.update(id, course);
-    }
+  }
 
-    async remove(id: number) {
-      return await this.courseRepository.delete(id);
-    }
+  async remove(id: number) {
+    return await this.courseRepository.delete(id);
+  }
 }
