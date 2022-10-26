@@ -1,4 +1,4 @@
-import { IsDefined, IsNumber, IsString } from "class-validator";
+import { IsArray, IsDefined, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateLessonDto {
     @IsDefined()
@@ -8,6 +8,10 @@ export class CreateLessonDto {
     @IsDefined()
     @IsString()
     description: string;
+
+    @IsOptional()
+    @IsArray()
+    keywords: string[];
 
     @IsDefined()
     @IsNumber()

@@ -22,32 +22,14 @@ export class LessonsController {
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    async findAll(@Req() request) {
-        const lessons = await this.lessonsService.findAll();
-        // if user is not admin or teacher show only
-        // published lessons
-        if (request.user.role !== UserRole.ADMIN 
-        && request.user.role !== UserRole.TEACHER) {
-        //return lessons.course.filter(lessons.course => lessons.course.state == 'published');///////////////////////
-        }    
-        return lessons;
+    async findAll() {
+        return await this.lessonsService.findAll();
     }
 
     @UseGuards(JwtAuthGuard)
     @Get(':id')
-    async findOne(@Req() request, @Param('id') id: string) {
-        const lesson = await this.lessonsService.findOne(+id);
-        if (!lesson) 
-        throw new NotFoundException('Lesson not found');
-        // if user is not admin or teacher thorw
-        // error if lesson is not published
-        if (request.user.role !== UserRole.ADMIN
-        && request.user.role !== UserRole.TEACHER
-        //&& lesson.course.state !== 'published'/////////////////////////////////////////////////
-        ) {
-            throw new ForbiddenException('You are not allowed to access this lesson');
-        }
-        return lesson;
+    async findOne(@Param('id') id: string) {
+        return await this.lessonsService.findOne(+id);
     }
 
     @Roles(UserRole.ADMIN, UserRole.TEACHER)
@@ -62,6 +44,6 @@ export class LessonsController {
     @Delete(':id')
     remove(@Param('id') id: string) {
         return this.lessonsService.remove(+id);
-    }
+    } 
     
 }

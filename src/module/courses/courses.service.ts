@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Course } from './entities/course.entity';
-import { Category } from '../categories/entities/category.entity';
+import { Category } from '../categories/entities/category.entity';import { Lesson } from '../lessons/entities/lesson.entity';/////////////////////////////////////
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -39,7 +39,10 @@ export class CoursesService {
   async findOne(id: number) {
     return await this.courseRepository.findOne({
       where: { id },
-      relations: ['category'],
+      relations: {
+        category: true,
+        lessons: true,
+      },
     });
   }
 
@@ -47,8 +50,8 @@ export class CoursesService {
     const category = await this.categoryRepository
     .findOneBy({id: updateCourseDto.category_id});
 
-  if (!category) 
-    throw new NotFoundException('Category not found');
+    if (!category) 
+      throw new NotFoundException('Category not found');
 
     const course = this.courseRepository.create({
       ...updateCourseDto,
@@ -56,9 +59,9 @@ export class CoursesService {
     });
 
     return await this.courseRepository.update(id, course);
-    }
+  }
 
-    async remove(id: number) {
-      return await this.courseRepository.delete(id);
-    }
+  async remove(id: number) {
+    return await this.courseRepository.delete(id);
+  }
 }
