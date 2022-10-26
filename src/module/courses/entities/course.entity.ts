@@ -3,7 +3,8 @@ import { Lesson } from "src/module/lessons/entities/lesson.entity";
 import { Category } from "src/module/categories/entities/category.entity";
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn,
     UpdateDateColumn, 
-    ManyToOne} from "typeorm";
+    ManyToOne,
+    OneToMany} from "typeorm";
 
 export enum CourseState {
     CREATED = 'created',
@@ -26,8 +27,8 @@ export class Course {
     @Column()
     description: string;
 
-    //@ManyToOne(type => Lesson, lessons => lesson.course)
-    //lessons: Lesson[];//////////////////////////////////////////////////////////////////
+    @OneToMany(type => Lesson, lesson => lesson.course)
+    lessons: Lesson[];
        
     @ManyToOne(type => Category, category => category.courses)
     category: Category;

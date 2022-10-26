@@ -22,49 +22,56 @@ export class LessonsService {
 
     async create(createLessonDto: CreateLessonDto) {
         const course = await this.courseRepository
-        .findOneBy({id: createLessonDto.course_id});
-
-        if (!course) 
-        throw new NotFoundException('Course not found');
-
+            .findOneBy({id: createLessonDto.course_id});
+            
         const category = await this.categoryRepository
-        .findOneBy({id: createLessonDto.category_id});
-
+            .findOneBy({id: createLessonDto.category_id});
+            
+        if (!course) 
+            throw new NotFoundException('Course not found');
         if (!category) 
-        throw new NotFoundException('Category not found');
+            throw new NotFoundException('Category not found');
 
         const lesson = this.lessonRepository.create({
-        ...createLessonDto,
-        category,
+            ...createLessonDto,
+            category,
+            course
         });
 
         return await this.lessonRepository.save(lesson);
     }
 
     async findAll() {
-        return await this.lessonRepository.find({relations: ['category']});
+        return await this.lessonRepository.find({relations: ['category', 'course']});
     }
 
     async findOne(id: number) {
         return await this.lessonRepository.findOne({
-        where: { id },
-        relations: ['category'],
+            where: { id },
+            relations: ['category', 'course'],
         });
     }
 
     async update(id: number, updateLessonDto: UpdateLessonDto) {
         const category = await this.categoryRepository
-        .findOneBy({id: updateLessonDto.category_id});
+            .findOneBy({id: updateLessonDto.category_id});
+
+        const course = await this.courseRepository
+            .findOneBy({id: updateLessonDto.course_id});
 
         if (!category) 
             throw new NotFoundException('Category not found');
 
-        const course = this.lessonRepository.create({
+        if (!course)
+            throw new NotFoundException('Course not found');
+
+        const lesson = this.lessonRepository.create({
             ...updateLessonDto,
             category,
+            course
         });
 
-        return await this.lessonRepository.update(id, course);
+        return await this.lessonRepository.update(id, lesson);
     }
 
     async remove(id: number) {

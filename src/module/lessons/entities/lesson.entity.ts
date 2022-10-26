@@ -16,11 +16,15 @@ export class Lesson {
     @Column()
     description: string;
 
-    //@ManyToOne(type => Course, course => course.lessons)
-    //course: Course;
+    @ManyToOne(type => Course, course => course.lessons)
+    course: Course;
 
     @ManyToOne(type => Category, category => category.courses)
     category: Category;
+
+    @Factory(faker => faker.lorem.words(7).split(' '))
+    @Column({ type: "text", array: true, nullable: true })
+    keywords: string[];
 
     @CreateDateColumn({ type: "timestamp" })
     created_at: Date;
