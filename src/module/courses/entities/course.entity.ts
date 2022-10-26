@@ -1,4 +1,5 @@
 import { Factory } from "nestjs-seeder";
+import { Lesson } from "src/module/lessons/entities/lesson.entity";
 import { Category } from "src/module/categories/entities/category.entity";
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn,
     UpdateDateColumn, 
@@ -24,6 +25,9 @@ export class Course {
     @Factory(faker => faker.lorem.paragraphs(3))
     @Column()
     description: string;
+
+    //@ManyToOne(type => Lesson, lessons => lesson.course)
+    //lessons: Lesson[];
        
     @ManyToOne(type => Category, category => category.courses)
     category: Category;
