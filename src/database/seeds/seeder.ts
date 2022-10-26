@@ -4,17 +4,21 @@ import { seeder } from "nestjs-seeder";
 import { DatabaseModule } from "../database.module";
 import { UsersSeeder } from "./user.seeder";
 import { User } from "./../../module/users/entities/user.entity";
+import { LessonsSeeder } from "./lesson.seeder";
+import { Lesson } from "src/module/lessons/entities/lesson.entity";
 import { Repository } from "typeorm";
 
 seeder({
     imports: [
         DatabaseModule,
-        TypeOrmModule.forFeature([User])
+        TypeOrmModule.forFeature([User]), 
+        TypeOrmModule.forFeature([Lesson])
     ],
     providers: [
-        UsersSeeder
+        UsersSeeder, 
+        LessonsSeeder
     ]
-}).run([UsersSeeder]);
+}).run([UsersSeeder, LessonsSeeder]);
 
 
 /*

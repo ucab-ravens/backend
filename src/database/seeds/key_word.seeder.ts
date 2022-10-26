@@ -5,7 +5,7 @@ import { Seeder, DataFactory } from "nestjs-seeder";
 import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable() 
-export class LessonsSeeder implements Seeder {
+export class KeyWordSeeder implements Seeder {
     constructor(
         @InjectRepository(Key_Word) private readonly repo: Repository<Key_Word>) {}
     
