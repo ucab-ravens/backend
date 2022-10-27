@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course, CourseState } from '../courses/entities/course.entity';
@@ -39,7 +39,12 @@ export class EnrollmentsService {
       course
     });
 
-    return await this.enrollmentRepository.save(enrollment);
+    try {
+      return await this.enrollmentRepository.save(enrollment);
+    }
+    catch (error){
+      throw new ConflictException('The user is already enrolled in the course');
+    }
   }
 
   async findAll() {
