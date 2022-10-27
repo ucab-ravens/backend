@@ -1,21 +1,21 @@
 import { Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
-import { User } from "../../module/users/entities/user.entity";
+import { Category } from "../../module/categories/entities/category.entity";
 import { Seeder, DataFactory } from "nestjs-seeder";
 import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable() 
-export class UsersSeeder implements Seeder {
+export class CategoriesSeeder implements Seeder {
     constructor(
-        @InjectRepository(User) private readonly repo: Repository<User>) {}
+        @InjectRepository(Category) private readonly repo: Repository<Category>) {}
     
     async seed(): Promise<any> {
         return await this.repo.insert(
-            DataFactory.createForClass(User).generate(100)
+            DataFactory.createForClass(Category).generate(100)
         )
     }
 
     async drop(): Promise<any> {
         return await this.repo.delete({});
-    }
+    }    
 }

@@ -11,10 +11,11 @@ export class Enrollment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(type=>User, user => user.enrollments)
+  @ManyToOne(type=>User, user => user.enrollments, {onDelete: 'CASCADE'})
   user: User;
 
-  @ManyToOne(type=>Course, course => course.enrollments)
+  @ManyToOne(type=>Course, course => course.enrollments, 
+    { onDelete: 'CASCADE' })
   course: Course;
 
   @CreateDateColumn({ type: "timestamp"})

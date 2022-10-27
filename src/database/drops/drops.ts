@@ -3,7 +3,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { seeder } from "nestjs-seeder";
 import { DatabaseModule } from "../database.module";
 import { UsersSeeder } from "./user.seeder";
-import { User } from "./../../module/users/entities/user.entity";
+import { User } from "../../module/users/entities/user.entity";
 import { LessonsSeeder } from "./lesson.seeder";
 import { Lesson } from "src/module/lessons/entities/lesson.entity";
 import { Repository } from "typeorm";

@@ -20,7 +20,7 @@ export class Course {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Factory(faker => faker.lorem.words(3))
+    @Factory(faker => faker.random.words(3))
     @Column()
     title: string;
 
@@ -28,10 +28,11 @@ export class Course {
     @Column()
     description: string;
 
-    @ManyToOne(type => Category, category => category.courses)
+    @ManyToOne(type => Category, category => category.courses,
+        {onDelete: 'CASCADE'})
     category: Category;
 
-    @Factory(faker => faker.lorem.words(7).split(' '))
+    @Factory(faker => faker.random.words(7).split(' '))
     @Column({ type: "text", array: true, nullable: true })
     keywords: string[];
 

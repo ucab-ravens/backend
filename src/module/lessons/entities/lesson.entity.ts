@@ -17,10 +17,13 @@ export class Lesson {
     @Column()
     description: string;
 
-    @ManyToOne(type => Course, course => course.lessons)
+    @ManyToOne(type => Course, course => course.lessons, 
+        { onDelete: 'CASCADE' })
     course: Course;
 
-    @ManyToOne(type => Category, category => category.courses)
+    @ManyToOne(type => Category, 
+        category => category.lessons, 
+        { onDelete: 'CASCADE' })
     category: Category;
 
     @Factory(faker => faker.lorem.words(7).split(' '))
