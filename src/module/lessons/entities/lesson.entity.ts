@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Factory } from "nestjs-seeder";
 import { Category } from 'src/module/categories/entities/category.entity';
 import { Course } from 'src/module/courses/entities/course.entity';
+import { LessonsComment } from 'src/module/lessons-comments/entities/lessons-comment.entity';
 
 @Entity('lessons')
 export class Lesson {
@@ -25,6 +26,9 @@ export class Lesson {
     @Factory(faker => faker.lorem.words(7).split(' '))
     @Column({ type: "text", array: true, nullable: true })
     keywords: string[];
+
+    @OneToMany(type => LessonsComment, comment => comment.lesson)
+    comments: LessonsComment[];
 
     @CreateDateColumn({ type: "timestamp" })
     created_at: Date;

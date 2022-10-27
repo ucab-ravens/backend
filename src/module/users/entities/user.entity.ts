@@ -1,6 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
 import { Factory } from "nestjs-seeder";
 import * as bcrypt from 'bcrypt';
+import { Enrollment } from 'src/module/enrollments/entities/enrollment.entity';
+import { LessonsComment } from 'src/module/lessons-comments/entities/lessons-comment.entity';
 
 export enum UserRole {
     ADMIN = 'admin',
@@ -36,6 +38,12 @@ export class User {
 
     @Column({ default: true })
     is_active: boolean;
+
+    @OneToMany(type => Enrollment, enrollment => enrollment.user) 
+    enrollments: Enrollment[];
+
+    @OneToMany(type => LessonsComment, comment => comment.user)
+    comments: LessonsComment[];
 
     @CreateDateColumn({ type: "timestamp" })
     created_at: Date;

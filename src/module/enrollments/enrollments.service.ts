@@ -28,18 +28,40 @@ export class EnrollmentsService {
       throw new NotFoundException('User or course not found');
     }
 
-    return await this.enrollmentRepository.create({
+    delete user.password;
+
+    const enrollment = await this.enrollmentRepository.create({
       user,
       course
     });
+
+    return await this.enrollmentRepository.save(enrollment);
   }
 
   async findAll() {
-    return await this.enrollmentRepository.find();
+    const enrollments = await this.enrollmentRepository.find({
+        relations: ['user','course']
+    });
+
+    enrollments.forEach(enrollment => {
+      delete enrollment.user.password;
+    });
+    
+    return enrollments;
   }
 
   async findOne(id: number) {
-    return await this.enrollmentRepository.findOne({where: {id}});
+    const enrollment = await this.enrollmentRepository.findOne({
+      where: {id},
+      relations: ['user','course']
+    });
+
+    if (!enrollment){
+      throw new NotFoundException('Enrollment not found');
+    }
+
+    delete enrollment.user.password;
+    return enrollment;
   }
 
   async update(id: number, updateEnrollmentDto: UpdateEnrollmentDto) {
@@ -52,8 +74,10 @@ export class EnrollmentsService {
       throw new NotFoundException('User or course not found');
     }
 
-    return await this.enrollmentRepository.update(id,{
-      user,course});
+    return await this.enrollmentRepository.update(
+      id,
+      { user, course}
+    );
   }
 
   async remove(id: number) {

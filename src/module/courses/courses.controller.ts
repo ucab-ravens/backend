@@ -17,6 +17,7 @@ export class CoursesController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createCourseDto: CreateCourseDto) {
+    const l = 5/0;
     return this.coursesService.create(createCourseDto);
   }
 
