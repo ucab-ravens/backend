@@ -42,13 +42,13 @@ export class LessonsService {
     }
 
     async findAll() {
-        return await this.lessonRepository.find({relations: ['category', 'course']});
+        return await this.lessonRepository.find({relations: ['category', 'course', 'comments']});
     }
 
     async findOne(id: number) {
         return await this.lessonRepository.findOne({
             where: { id },
-            relations: ['category', 'course'],
+            relations: ['category', 'course', 'comments'],
         });
     }
 

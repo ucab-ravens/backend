@@ -5,6 +5,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn,
     UpdateDateColumn, 
     ManyToOne,
     OneToMany} from "typeorm";
+import { Enrollment } from "src/module/enrollments/entities/enrollment.entity";
 
 export enum CourseState {
     CREATED = 'created',
@@ -27,9 +28,6 @@ export class Course {
     @Column()
     description: string;
 
-    @OneToMany(type => Lesson, lesson => lesson.course)
-    lessons: Lesson[];
-       
     @ManyToOne(type => Category, category => category.courses)
     category: Category;
 
@@ -50,4 +48,9 @@ export class Course {
     @UpdateDateColumn({ type: "timestamp" })
     updated_at: Date;
 
+    @OneToMany(type => Lesson, lesson => lesson.course)
+    lessons: Lesson[];
+
+    @OneToMany(type => Enrollment, enrollment => enrollment.course)
+    enrollments: Enrollment[];
 }

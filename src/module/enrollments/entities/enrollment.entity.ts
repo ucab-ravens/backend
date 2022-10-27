@@ -11,10 +11,10 @@ export class Enrollment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(type=>User)
+  @ManyToOne(type=>User, user => user.enrollments)
   user: User;
 
-  @ManyToOne(type=>Course)
+  @ManyToOne(type=>Course, course => course.enrollments)
   course: Course;
 
   @CreateDateColumn({ type: "timestamp"})
