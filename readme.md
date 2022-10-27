@@ -9,6 +9,14 @@ API REST para la plataforma de cursos virtuales `Corsi`.
 3. [NestJS](https://nestjs.com/)
 4. [PostgreSQL](https://www.postgresql.org/)
 
+## Diagrama de Clases
+
+![Diagrama de clases completo](https://user-images.githubusercontent.com/92033803/198201849-2b288c68-82f3-42d2-a6a2-e1fa2f762956.png)
+
+## Diagrama de Secuencia
+
+![Diagrama de secuencia](https://user-images.githubusercontent.com/92033803/198201897-6022871f-1f7a-4bef-bc6f-dc8a416a4537.png)
+
 ## Instalar
 
 Desde un terminal clonamos el repositorio 
