@@ -8,9 +8,10 @@ import { LessonsModule } from './module/lessons/lessons.module';
 import { EnrollmentsModule } from './module/enrollments/enrollments.module';
 import { LessonsCommentsModule } from './module/lessons-comments/lessons-comments.module';
 import { WinstonModule } from 'nest-winston';
-import * as winston from 'winston';
 import { LogsMiddleware } from './log/logs.middleware';
 import { MailerModule } from '@nestjs-modules/mailer';
+
+const winston = require('winston');
 
 @Module({
   imports: [
