@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Course } from '../courses/entities/course.entity';
+import { Course, CourseState } from '../courses/entities/course.entity';
 import { User } from '../users/entities/user.entity';
 import { CreateEnrollmentDto } from './dto/create-enrollment.dto';
 import { UpdateEnrollmentDto } from './dto/update-enrollment.dto';
@@ -28,6 +28,10 @@ export class EnrollmentsService {
       throw new NotFoundException('User or course not found');
     }
 
+    if (course.state != CourseState.PUBLISHED){
+      throw new ForbiddenException('The course is not published');
+    }
+
     delete user.password;
 
     const enrollment = await this.enrollmentRepository.create({
@@ -35,7 +39,12 @@ export class EnrollmentsService {
       course
     });
 
-    return await this.enrollmentRepository.save(enrollment);
+    try {
+      return await this.enrollmentRepository.save(enrollment);
+    }
+    catch (error){
+      throw new ConflictException('The user is already enrolled in the course');
+    }
   }
 
   async findAll() {

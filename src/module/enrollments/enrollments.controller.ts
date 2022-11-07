@@ -29,7 +29,7 @@ export class EnrollmentsController {
       return await this.enrollmentsService.create(createEnrollmentDto);
     }
     catch (error) {
-      throw new ConflictException('Already enrolled');
+      throw error;
     }
   }
 
