@@ -24,9 +24,16 @@ export class Course {
     @Column()
     title: string;
 
+    @Factory(faker => faker.random.words(5))
+    @Column()
+    subtitle: string;
+
     @Factory(faker => faker.lorem.paragraphs(3))
     @Column()
     description: string;
+
+    @Column()
+    image: string;
 
     @ManyToOne(type => Category, category => category.courses,
         {onDelete: 'CASCADE'})

@@ -8,7 +8,15 @@ export class CreateCourseDto {
 
     @IsDefined()
     @IsString()
+    subtitle: string;
+
+    @IsDefined()
+    @IsString()
     description: string;
+
+    @IsDefined()
+    @IsString()
+    image: string;
 
     @IsDefined()
     @IsNumber()
