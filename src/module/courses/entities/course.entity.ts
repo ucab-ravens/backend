@@ -25,14 +25,14 @@ export class Course {
     title: string;
 
     @Factory(faker => faker.random.words(5))
-    @Column()
+    @Column({nullable: true})
     subtitle: string;
 
     @Factory(faker => faker.lorem.paragraphs(3))
     @Column()
     description: string;
 
-    @Column()
+    @Column({nullable: true})
     image: string;
 
     @ManyToOne(type => Category, category => category.courses,
