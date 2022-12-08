@@ -34,7 +34,9 @@ export class CoursesService {
   }
 
   async findAll() {
-    return await this.courseRepository.find({relations: ['category', 'lessons']});
+    return await this.courseRepository.find(
+      {relations: ['category', 'lessons'], 
+      order: {id: 'ASC'}});
   }
   
   async search(search: string) {
